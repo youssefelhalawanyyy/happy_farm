@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1E293B" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/mazra3ty-logo.png" />
+    <title>Mazra3ty | Smart Farms Start Here</title>
+  </head>
+  <body class="bg-background text-foreground">
+    <div id="root"></div>
+    <script>
+      (function () {
+        const root = document.getElementById("root");
+        const isLocalHost = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+        const showBootError = (message) => {
+          if (!root || root.childElementCount > 0) return;
+          root.innerHTML =
+            '<main style="min-height:100vh;display:grid;place-items:center;padding:24px;font-family:Inter,system-ui,-apple-system,sans-serif;background:#f8fafc;color:#0f172a;">' +
+            '<div style="max-width:720px;width:100%;background:#fff;border:1px solid #fecaca;border-radius:16px;padding:20px;box-shadow:0 1px 3px rgba(15,23,42,0.08);">' +
+            '<p style="margin:0 0 8px 0;font-size:14px;font-weight:700;color:#b91c1c;">App failed to load</p>' +
+            '<p style="margin:0 0 12px 0;font-size:14px;line-height:1.5;color:#334155;">Open the exact Vite URL (usually <strong>http://127.0.0.1:5173</strong>) after running <code>npm run dev</code>.</p>' +
+            '<pre style="margin:0;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;overflow:auto;font-size:12px;line-height:1.45;color:#0f172a;">' +
+            (message || "Frontend bundle did not mount.") +
+            "</pre>" +
+            "</div>" +
+            "</main>";
+        };
+
+        if (isLocalHost && "serviceWorker" in navigator) {
+          navigator.serviceWorker
+            .getRegistrations()
+            .then((registrations) => Promise.all(registrations.map((registration) => registration.unregister())))
+            .catch((error) => {
+              console.error("Failed to clear local service workers:", error);
+            });
+        }
+
+        if (isLocalHost && "caches" in window) {
+          caches
+            .keys()
+            .then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
+            .catch((error) => {
+              console.error("Failed to clear local caches:", error);
+            });
+        }
+
+        window.__MAZRA3TY_BOOT_GUARD__ = window.setTimeout(function () {
+          showBootError("No React mount detected.");
+        }, 3500);
+
+        window.addEventListener("error", function (event) {
+          showBootError(event && event.message ? event.message : "Unexpected runtime error.");
+        });
+
+        window.addEventListener("unhandledrejection", function (event) {
+          const reason = event && event.reason ? String(event.reason) : "Unhandled promise rejection.";
+          showBootError(reason);
+        });
+      })();
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
