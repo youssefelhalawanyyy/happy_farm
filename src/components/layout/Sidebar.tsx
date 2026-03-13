@@ -7,33 +7,21 @@ import { useAppStore } from "@/store/useAppStore";
 import { useAuth } from "@/context/AuthContext";
 import { Mazra3tyLogo } from "@/components/brand/Mazra3tyLogo";
 
-type SidebarSection = {
-  title: string;
-  hrefs: string[];
-};
+type SidebarSection = { title: string; hrefs: string[] };
 
 const SIDEBAR_SECTIONS: SidebarSection[] = [
-  {
-    title: "Operations",
-    hrefs: ["/", "/batches", "/feed", "/market", "/environment", "/inventory"]
-  },
-  {
-    title: "Business",
-    hrefs: ["/finance", "/quotations", "/workers"]
-  },
-  {
-    title: "Intelligence",
-    hrefs: ["/reports", "/ai-assistant", "/knowledge-center"]
-  },
-  {
-    title: "System",
-    hrefs: ["/settings"]
-  }
+  { title: "Operations", hrefs: ["/", "/batches", "/feed", "/market", "/environment", "/inventory", "/mortality"] },
+  { title: "Health", hrefs: ["/vaccinations"] },
+  { title: "Analytics", hrefs: ["/batch-comparison", "/reports", "/reports/exports"] },
+  { title: "Business", hrefs: ["/sales", "/finance", "/quotations", "/workers"] },
+  { title: "Intelligence", hrefs: ["/ai-assistant", "/knowledge-center", "/alerts"] },
+  { title: "System", hrefs: ["/admin/users", "/downloads", "/settings"] }
 ];
 
 export const Sidebar = () => {
   const { sidebarOpen, toggleSidebar } = useAppStore();
   const { profile } = useAuth();
+
   const allowedItems = NAV_ITEMS.filter((item) => (profile ? item.roles.includes(profile.role) : false));
   const sectionedItems = SIDEBAR_SECTIONS.map((section) => ({
     ...section,
@@ -44,110 +32,104 @@ export const Sidebar = () => {
   return (
     <aside
       className={cn(
-        "sidebar-shell fixed inset-y-0 left-0 z-40 flex w-[292px] flex-col border-r border-white/10 px-4 py-5 text-slate-100 shadow-xl transition-transform duration-300 lg:relative lg:translate-x-0",
-        sidebarOpen ? "translate-x-0" : "-translate-x-full lg:w-[92px] lg:translate-x-0"
+        "sidebar-shell fixed inset-y-0 left-0 z-40 flex flex-col px-3 py-4 transition-all duration-300 lg:relative lg:translate-x-0",
+        sidebarOpen ? "w-[268px] translate-x-0" : "-translate-x-full lg:w-[72px] lg:translate-x-0"
       )}
     >
-      <div className="mb-6 rounded-2xl border border-white/15 bg-white/5 p-3 backdrop-blur-sm">
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <Mazra3tyLogo variant="icon" className="shadow-[0_6px_16px_rgba(15,23,42,0.35)]" />
-            {sidebarOpen ? (
+      {/* Logo Card */}
+      <div className="sidebar-logo-card mb-5">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2.5">
+            <Mazra3tyLogo variant="icon" className="shrink-0" />
+            {sidebarOpen && (
               <div>
-                <p className="text-base font-semibold text-slate-50">Mazra3ty</p>
-                <p className="text-xs text-slate-300">Smart Farms Start Here</p>
+                <p className="text-[14px] font-semibold leading-tight text-slate-50">Mazra3ty</p>
+                <p className="text-[11px] text-slate-400">Smart Farms Start Here</p>
               </div>
-            ) : null}
+            )}
           </div>
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleSidebar}
-            className="text-slate-200 hover:bg-white/10"
+            className="h-7 w-7 shrink-0 text-slate-400 hover:bg-white/10 hover:text-slate-200"
             aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
           >
-            {sidebarOpen ? <ChevronLeft size={17} /> : <Menu size={17} />}
+            {sidebarOpen ? <ChevronLeft size={14} /> : <Menu size={14} />}
           </Button>
         </div>
 
-        {sidebarOpen ? (
-          <div className="mt-3 flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/15 px-2.5 py-2 text-xs text-slate-100">
+        {sidebarOpen && (
+          <div className="sidebar-status-pill mt-2.5">
             <span className="sidebar-status-dot" />
-            <Sparkles size={13} className="text-accent" />
-            <span className="font-medium">Live farm monitoring active</span>
+            <Sparkles size={11} className="text-accent" />
+            <span className="font-medium text-slate-200">Live farm monitoring active</span>
           </div>
-        ) : null}
+        )}
       </div>
 
-      <nav className="flex-1 overflow-y-auto pr-1">
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto">
         {sidebarOpen
           ? sectionedItems.map((section) => (
               <div key={section.title} className="mb-4">
-                <p className="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400/90">
-                  {section.title}
-                </p>
-                <div className="space-y-1">
-                  {section.items.map((item, index) => (
+                <p className="sidebar-section-label">{section.title}</p>
+                <div className="space-y-0.5">
+                  {section.items.map((item, idx) => (
                     <NavLink
                       key={item.href}
                       to={item.href}
+                      style={{ animationDelay: `${idx * 28}ms` }}
                       className={({ isActive }) =>
-                        cn(
-                          "sidebar-nav-item group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition",
-                          isActive
-                            ? "bg-white/14 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.24),0_8px_18px_rgba(15,23,42,0.3)]"
-                            : "text-slate-200/90 hover:bg-white/10 hover:text-white"
-                        )
+                        cn("sidebar-nav-item", isActive ? "sidebar-nav-item-active" : "sidebar-nav-item-inactive")
                       }
-                      style={{ animationDelay: `${index * 32}ms` }}
                     >
                       <span className="sidebar-nav-icon">
-                        <item.icon size={16} className="shrink-0" />
+                        <item.icon size={15} className="shrink-0" />
                       </span>
-                      <span className="truncate">{item.label}</span>
+                      <span className="truncate text-[13px]">{item.label}</span>
                     </NavLink>
                   ))}
                 </div>
               </div>
             ))
-          : flatItems.map((item, index) => (
+          : flatItems.map((item, idx) => (
               <NavLink
                 key={item.href}
                 to={item.href}
-                className={({ isActive }) =>
-                  cn(
-                    "sidebar-nav-item group mb-1 flex justify-center rounded-xl px-2.5 py-2.5 transition",
-                    isActive
-                      ? "bg-white/14 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.24),0_8px_18px_rgba(15,23,42,0.3)]"
-                      : "text-slate-200/90 hover:bg-white/10 hover:text-white"
-                  )
-                }
-                style={{ animationDelay: `${index * 26}ms` }}
                 title={item.label}
+                style={{ animationDelay: `${idx * 22}ms` }}
+                className={({ isActive }) =>
+                  cn("sidebar-nav-item mb-0.5 justify-center", isActive ? "sidebar-nav-item-active" : "sidebar-nav-item-inactive")
+                }
               >
                 <span className="sidebar-nav-icon">
-                  <item.icon size={16} className="shrink-0" />
+                  <item.icon size={15} />
                 </span>
               </NavLink>
             ))}
       </nav>
 
-      {profile ? (
-        <div className={cn("mt-4 rounded-xl border border-white/15 bg-white/5 p-3", !sidebarOpen && "px-2 py-2")}>
+      {/* User card */}
+      {profile && (
+        <div className={cn("sidebar-user-card mt-3", !sidebarOpen && "px-1.5 py-2 text-center")}>
           {sidebarOpen ? (
             <>
-              <p className="text-sm font-semibold text-white">{profile.displayName}</p>
-              <p className="text-xs text-slate-300">{ROLE_LABELS[profile.role]}</p>
-              {profile.assignedHouse ? <p className="text-xs text-slate-400">{profile.assignedHouse}</p> : null}
+              <p className="text-[13px] font-semibold text-white">{profile.displayName}</p>
+              <p className="text-[11px] text-slate-400">{ROLE_LABELS[profile.role]}</p>
+              {profile.assignedHouse && <p className="mt-0.5 text-[11px] text-slate-500">{profile.assignedHouse}</p>}
             </>
           ) : (
-            <p className="text-center text-[10px] font-semibold uppercase tracking-wide text-slate-300">{ROLE_LABELS[profile.role]}</p>
+            <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+              {ROLE_LABELS[profile.role].slice(0, 3)}
+            </p>
           )}
         </div>
-      ) : null}
+      )}
 
-      {sidebarOpen ? (
-        <div className="sidebar-chick-zone mt-3" aria-hidden="true">
+      {/* Chick animation */}
+      {sidebarOpen && (
+        <div className="sidebar-chick-zone" aria-hidden="true">
           <div className="sidebar-chick-run">
             <span className="sidebar-chick-bob">🐥</span>
           </div>
@@ -155,7 +137,7 @@ export const Sidebar = () => {
             <span className="sidebar-chick-bob sidebar-chick-bob-delay">🐣</span>
           </div>
         </div>
-      ) : null}
+      )}
     </aside>
   );
 };

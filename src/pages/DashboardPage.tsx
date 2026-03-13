@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 import { toast } from "@/lib/toast";
 import { useAuth } from "@/context/AuthContext";
+import { OnboardingBanner } from "@/components/onboarding/OnboardingBanner";
 import { useRealtimeCollection } from "@/hooks/useRealtimeCollection";
 import { enablePushNotifications, listenForegroundMessages } from "@/services/notificationService";
 import { COLLECTIONS } from "@/lib/constants";
@@ -704,6 +705,9 @@ export const DashboardPage = () => {
   return (
     <section className="space-y-5">
       <style>{WALK_CSS}</style>
+
+      {/* Onboarding banner for new users with no batches */}
+      {batches.length === 0 && <OnboardingBanner />}
 
       <div
         style={{

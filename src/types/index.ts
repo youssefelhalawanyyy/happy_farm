@@ -224,3 +224,60 @@ export interface DashboardMetrics {
   currentTemperature: number;
   estimatedProfit: number;
 }
+
+/* ─── Vaccination & Medication ─────────────────────────────────────────── */
+
+export type VaccinationRoute = "drinking_water" | "spray" | "eye_drop" | "injection" | "in_ovo";
+
+export interface VaccinationProtocolItem {
+  dayOfAge: number;
+  diseaseName: string;
+  vaccine: string;
+  route: VaccinationRoute;
+  notes?: string;
+}
+
+export const STANDARD_BROILER_PROTOCOL: VaccinationProtocolItem[] = [
+  { dayOfAge: 1,  diseaseName: "Marek's Disease",                 vaccine: "HVT / Rispens",      route: "injection",      notes: "Administered at hatchery" },
+  { dayOfAge: 7,  diseaseName: "Newcastle Disease (NDV)",         vaccine: "Lasota / Clone 30",  route: "drinking_water" },
+  { dayOfAge: 14, diseaseName: "Infectious Bursal Disease (IBD)", vaccine: "Intermediate IBD",   route: "drinking_water", notes: "Gumboro – critical window" },
+  { dayOfAge: 21, diseaseName: "Newcastle Disease (Booster)",     vaccine: "Lasota",             route: "drinking_water" },
+  { dayOfAge: 28, diseaseName: "Infectious Bronchitis (IB)",      vaccine: "IB Ma5 / H120",      route: "spray",          notes: "Optional – assess risk" },
+];
+
+export interface VaccinationScheduleEntry extends AuditFields {
+  id?: string;
+  batchId: string;
+  dayOfAge: number;
+  diseaseName: string;
+  vaccine: string;
+  route: VaccinationRoute;
+  scheduledDate: string;
+  status: "pending" | "done" | "skipped";
+  completedAt?: string;
+  completedBy?: string;
+  notes?: string;
+}
+
+/* ─── Batch Comparison ─────────────────────────────────────────────────── */
+
+export interface BatchPerformanceSummary {
+  batchId: string;
+  batchLabel: string;
+  breed: BreedType;
+  supplier: string;
+  arrivalDate: string;
+  daysInProduction: number;
+  initialCount: number;
+  mortalityCount: number;
+  mortalityPct: number;
+  survivalPct: number;
+  fcr: number;
+  avgWeightKg: number;
+  feedKg: number;
+  totalRevenue: number;
+  totalCost: number;
+  profitEGP: number;
+  profitPerKg: number;
+  status: "active" | "sold" | "closed";
+}

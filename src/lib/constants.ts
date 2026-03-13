@@ -1,14 +1,19 @@
 import {
   Activity,
+  BarChart2,
   BarChart3,
+  Bell,
   Bot,
   BookOpenText,
   DollarSign,
+  Download,
   Factory,
   LayoutDashboard,
   Package,
   Quote,
   Settings,
+  ShieldCheck,
+  Skull,
   Thermometer,
   Users,
   Wheat
@@ -32,7 +37,8 @@ export const COLLECTIONS = {
   tasks: "tasks",
   quotations: "quotations",
   alerts: "alerts",
-  notificationTokens: "notificationTokens"
+  notificationTokens: "notificationTokens",
+  vaccinationSchedule: "vaccinationSchedule"
 } as const;
 
 export const SAFE_THRESHOLDS = {
@@ -62,17 +68,24 @@ interface NavItem {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { label: "Dashboard", href: "/", icon: LayoutDashboard, roles: ["admin", "manager", "worker"] },
-  { label: "Batches", href: "/batches", icon: Factory, roles: ["admin", "manager", "worker"] },
-  { label: "Feed Management", href: "/feed", icon: Wheat, roles: ["admin", "manager", "worker"] },
-  { label: "Market Prices", href: "/market", icon: Activity, roles: ["admin", "manager"] },
-  { label: "Environment", href: "/environment", icon: Thermometer, roles: ["admin", "manager", "worker"] },
-  { label: "Finance", href: "/finance", icon: DollarSign, roles: ["admin", "manager"] },
-  { label: "Quotations", href: "/quotations", icon: Quote, roles: ["admin", "manager"] },
-  { label: "Inventory", href: "/inventory", icon: Package, roles: ["admin", "manager", "worker"] },
-  { label: "Workers", href: "/workers", icon: Users, roles: ["admin", "manager"] },
-  { label: "Reports", href: "/reports", icon: BarChart3, roles: ["admin", "manager"] },
-  { label: "AI Assistant", href: "/ai-assistant", icon: Bot, roles: ["admin", "manager", "worker"] },
-  { label: "Knowledge Center", href: "/knowledge-center", icon: BookOpenText, roles: ["admin", "manager", "worker"] },
-  { label: "Settings", href: "/settings", icon: Settings, roles: ["admin", "manager", "worker"] }
+  { label: "Dashboard",        href: "/",                icon: LayoutDashboard, roles: ["admin", "manager", "worker"] },
+  { label: "Batches",          href: "/batches",         icon: Factory,         roles: ["admin", "manager", "worker"] },
+  { label: "Feed Management",  href: "/feed",            icon: Wheat,           roles: ["admin", "manager", "worker"] },
+  { label: "Mortality",        href: "/mortality",       icon: Skull,           roles: ["admin", "manager", "worker"] },
+  { label: "Market Prices",    href: "/market",          icon: Activity,        roles: ["admin", "manager"] },
+  { label: "Environment",      href: "/environment",     icon: Thermometer,     roles: ["admin", "manager", "worker"] },
+  { label: "Inventory",        href: "/inventory",       icon: Package,         roles: ["admin", "manager", "worker"] },
+  { label: "Vaccinations",     href: "/vaccinations",    icon: ShieldCheck,     roles: ["admin", "manager", "worker"] },
+  { label: "Batch Comparison", href: "/batch-comparison",icon: BarChart2,       roles: ["admin", "manager"] },
+  { label: "Reports",          href: "/reports",         icon: BarChart3,       roles: ["admin", "manager"] },
+  { label: "Sales",            href: "/sales",           icon: Activity,        roles: ["admin", "manager"] },
+  { label: "Finance",          href: "/finance",         icon: DollarSign,      roles: ["admin", "manager"] },
+  { label: "Quotations",       href: "/quotations",      icon: Quote,           roles: ["admin", "manager"] },
+  { label: "Workers",          href: "/workers",         icon: Users,           roles: ["admin", "manager"] },
+  { label: "AI Assistant",     href: "/ai-assistant",    icon: Bot,             roles: ["admin", "manager", "worker"] },
+  { label: "Knowledge Center", href: "/knowledge-center",icon: BookOpenText,    roles: ["admin", "manager", "worker"] },
+  { label: "Alerts",           href: "/alerts",          icon: Bell,            roles: ["admin", "manager", "worker"] },
+  { label: "Users",            href: "/admin/users",     icon: Users,           roles: ["admin"] },
+  { label: "Downloads",        href: "/downloads",       icon: Download,        roles: ["admin", "manager"] },
+  { label: "Settings",         href: "/settings",        icon: Settings,        roles: ["admin", "manager", "worker"] }
 ];
