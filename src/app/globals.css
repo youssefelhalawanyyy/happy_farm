@@ -235,7 +235,8 @@ body {
 
 /* ─── Cards ──────────────────────────────────────────────────────────────────── */
 .glass-panel {
-  @apply rounded-2xl border border-border/70 bg-card/98 backdrop-blur-sm;
+  @apply rounded-2xl border border-border/70 backdrop-blur-sm;
+  background-color: hsl(var(--card) / 0.98);
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
@@ -245,27 +246,32 @@ body {
 
 /* ─── Metric / Stat Panels ──────────────────────────────────────────────────── */
 .stat-panel {
-  @apply rounded-xl border border-border/60 bg-muted/8 p-3;
+  @apply rounded-xl border border-border/60 p-3;
+  background-color: hsl(var(--muted) / 0.08);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .stat-panel-positive {
-  @apply rounded-xl border border-success/25 bg-success/8 p-3;
+  @apply rounded-xl border border-success/25 p-3;
+  background-color: hsl(var(--success) / 0.08);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .stat-panel-warning {
-  @apply rounded-xl border border-warning/25 bg-warning/8 p-3;
+  @apply rounded-xl border border-warning/25 p-3;
+  background-color: hsl(var(--warning) / 0.08);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .stat-panel-danger {
-  @apply rounded-xl border border-danger/25 bg-danger/8 p-3;
+  @apply rounded-xl border border-danger/25 p-3;
+  background-color: hsl(var(--danger) / 0.08);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .stat-panel-info {
-  @apply rounded-xl border border-info/25 bg-info/8 p-3;
+  @apply rounded-xl border border-info/25 p-3;
+  background-color: hsl(var(--info) / 0.08);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
@@ -337,15 +343,18 @@ body {
 }
 
 .insight-card-danger {
-  @apply border-danger/25 bg-danger/5;
+  @apply border-danger/25;
+  background-color: hsl(var(--danger) / 0.05);
 }
 
 .insight-card-warning {
-  @apply border-warning/25 bg-warning/5;
+  @apply border-warning/25;
+  background-color: hsl(var(--warning) / 0.05);
 }
 
 .insight-card-normal {
-  @apply border-success/20 bg-success/4;
+  @apply border-success/20;
+  background-color: hsl(var(--success) / 0.04);
 }
 
 /* ─── Health Score Ring ──────────────────────────────────────────────────────── */
@@ -411,12 +420,14 @@ body {
 }
 
 .onboarding-step-active {
-  @apply border-primary/40 bg-primary/4;
+  @apply border-primary/40;
+  background-color: hsl(var(--primary) / 0.04);
   box-shadow: 0 0 0 3px rgba(31, 122, 99, 0.10);
 }
 
 .onboarding-step-done {
-  @apply border-success/30 bg-success/4;
+  @apply border-success/30;
+  background-color: hsl(var(--success) / 0.04);
 }
 
 .onboarding-step-pending {
